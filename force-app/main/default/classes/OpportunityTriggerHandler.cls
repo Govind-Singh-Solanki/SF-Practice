@@ -39,7 +39,7 @@ public with sharing class OpportunityTriggerHandler {
                 t.Status = 'Not Started';
                 t.WhatId = opp.Id;
                 newTaskList.add(t);
-            }
+            } 
         }
 
         Database.insert(newTaskList, false);
