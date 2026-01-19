@@ -1,4 +1,21 @@
 public with sharing class ContactTriggerHandler {
+
+    private static final String EMAIL_REGEX = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$';
+
+    public static void handleContactEmailValidation(List<Contact> conList) {
+
+        for(Contact con : conList) {
+            if(con.Dummy_Email__c == null) {
+                con.addError('Email cannot be empty!');
+                return;
+            } else {
+                if(validateEmail(con.Dummy_Email__c) == false) {
+                    con.addError('Invalid email format!');
+                }
+            }
+        }
+
+    }
     
     public static void handleAccountContactCount(List<Contact> conList) {
 
@@ -45,6 +62,17 @@ public with sharing class ContactTriggerHandler {
         // Database.update(accList, false);
         update accList;
 
+    }
+    
+    //Method to validate email format (regular expression)
+    public static Boolean validateEmail(String email) {
+        if(email == null){
+            return false;
+        }
+        Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
+        Matcher emailMatcher = emailPattern.matcher(email);
+
+        return emailMatcher.matches();
     }
 
 }
