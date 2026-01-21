@@ -11,7 +11,7 @@ trigger AccountTrigger on Account (before insert, before update, before delete) 
             AccountTriggerHandler.handleAccountDeletion(Trigger.old);
         }
 
-        // Trigger to handle account duplication.
+        // Trigger to handle account duplication based upon name.
         if(Trigger.isInsert) {
             AccountTriggerHandler.handleAccountDuplication(Trigger.New);
         }
