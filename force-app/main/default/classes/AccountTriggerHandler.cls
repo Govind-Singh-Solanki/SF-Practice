@@ -28,4 +28,27 @@ public with sharing class AccountTriggerHandler {
 
     }
 
+    public static void handleAccountDuplication(List<Account> accList) {
+
+        Set<Id> accIdSet = new Set<Id>();
+        Map<Id, Account> accMap = new Map<Id, Account>();
+ 
+        for(Account acc : accList) {
+            accIdSet.add(acc.Id);
+        }
+
+        List<Account> existingAccList = [SELECT Id, Name FROM Account WHERE Id IN :accIdSet];
+
+        for(Account existingAcc : existingAccList) {
+            accMap.put(existingAcc.Id, existingAcc);
+        }
+
+        for(Account acc : accList) {
+            if(acc.Name == accMap.get(acc.Id).Name) {
+                acc.addError('Account with same name already exists.');
+            }
+        }
+        
+    }
+
 }
