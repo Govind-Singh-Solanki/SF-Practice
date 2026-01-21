@@ -28,6 +28,7 @@ public with sharing class AccountTriggerHandler {
 
     }
 
+    // Method for preventing acount duplication based on account name
     public static void handleAccountDuplication(List<Account> accList) {
 
         Set<Id> accIdSet = new Set<Id>();
