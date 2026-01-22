@@ -18,6 +18,7 @@ public with sharing class AccountTriggerHandler {
 
     }
 
+    // Method for account deletion pevention
     public static void handleAccountDeletion(List<Account> accList) {
 
         for(Account acc : accList) {
