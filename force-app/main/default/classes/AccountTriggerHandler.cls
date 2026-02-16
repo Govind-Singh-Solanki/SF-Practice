@@ -17,7 +17,6 @@ public with sharing class AccountTriggerHandler {
                 acc.ShippingCountryCode = acc.BillingCountryCode;
             }
         }
-
     }
 
     // Method for account deletion pevention
