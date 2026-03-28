@@ -63,6 +63,21 @@ public with sharing class ContactTriggerHandler {
         update accList;
 
     }
+
+    public static void handleContactDeletion(List<Contact> conList) {
+        Set<Id> conIdSet = new Set<Id>();
+
+        for(Contact con : conList) {
+            conIdSet.add(con.Id);
+        }
+
+        //Fetch contacts having cases related to them
+        List<Contact> contactsHavingCases = [SELECT Id, Name FROM Contact WHERE Id IN (SELECT ContactId FROM Case WHERE ContactId IN :conIdSet)];
+
+        for(Contact con : contactsHavingCases) {
+            con.addError('Cannot delete contact as it has atleast 1 related case.');
+        }
+    }
     
     //Method to validate email format (regular expression)
     public static Boolean validateEmail(String email) {

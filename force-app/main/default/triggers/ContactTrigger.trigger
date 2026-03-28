@@ -1,4 +1,5 @@
-trigger ContactTrigger on Contact (after update, after delete, before insert, before update) {
+
+trigger ContactTrigger on Contact (after update, after delete, before insert, before update, before delete) {
 
     if(Trigger.isAfter) {
         if(Trigger.isDelete) {
@@ -12,6 +13,9 @@ trigger ContactTrigger on Contact (after update, after delete, before insert, be
     if(Trigger.isBefore) {
         if(Trigger.isInsert || Trigger.isUpdate) {
             ContactTriggerHandler.handleContactEmailValidation(Trigger.New);
+        }
+        if(Trigger.isDelete) {
+            ContactTriggerHandler.handleContactDeletion(Trigger.old);
         }
     }
 
