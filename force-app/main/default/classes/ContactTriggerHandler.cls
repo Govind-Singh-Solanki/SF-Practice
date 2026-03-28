@@ -71,11 +71,18 @@ public with sharing class ContactTriggerHandler {
             conIdSet.add(con.Id);
         }
 
+        Set<Id> contactsWithCases = new Set<Id>();
         //Fetch contacts having cases related to them
         List<Contact> contactsHavingCases = [SELECT Id, Name FROM Contact WHERE Id IN (SELECT ContactId FROM Case WHERE ContactId IN :conIdSet)];
 
         for(Contact con : contactsHavingCases) {
-            con.addError('Cannot delete contact as it has atleast 1 related case.');
+            contactsWithCases.add(con.Id);
+        }
+
+        for(Contact con : conList) {
+            if(contactsWithCases.contains(con.Id)) {
+                con.addError('Cannot delete contact as it has atleast 1 related case.');
+            }
         }
     }
     
